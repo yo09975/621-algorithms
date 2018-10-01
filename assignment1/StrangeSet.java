@@ -1,18 +1,29 @@
 package assignment_1;
 
+/**
+ * Represents a dataset that consists of two arrays, one of length k and one
+ * of length sqrt(k). This StrangeSet data structure fills the smaller array
+ * using insertion sort, merging the two arrays when the smaller array is
+ * filled. Merging is also performed via insertion sort. The data structure
+ * will reallocate when there are no more slots left in either array.
+ * @version 10012018
+ *
+ */
 public class StrangeSet {
 	private int[] big_array;
 	private int[] small_array;
 	private int small_elements = 0;
 	private int big_elements = 0;
 
+	/**
+	 * Constructor for a StrangeSet data structure
+	 * @param size The size of the small array in the data structure
+	 */
 	StrangeSet(int size){
 		small_array = new int[size];
 		small_elements = 0;
 		big_array = new int[size*size];
 		big_elements = 0;
-		System.out.println("Small array length: " + small_array.length);
-		System.out.println("Big array length: " + big_array.length);
 	}
 
 
@@ -23,23 +34,21 @@ public class StrangeSet {
 	public void insert(int val) {
 
 		//this is a SET so no duplicates
-		// TODO: Check value in large array too
-		// TODO: (or we can just assume no duplicates per the professor)
 		for(int index = 0; index < small_elements; index++) {
-			if (small_array[index] == val) {
+			if (search(val)) {
 				System.out.println("Duplicate element (" + val + "), skipping");
 				return;
 			}
 		}
 
-		System.out.println("Inserting element (" + val + ") into small array");
+		//System.out.println("Inserting element (" + val + ") into small array");
 		small_array[small_elements] = val;
 		small_elements++;
 
 		small_array = sort_array(small_array);
 
 		if (small_array.length == small_elements) {
-			System.out.println("Small array is now full, merging...");
+			//System.out.println("Small array is now full, merging...");
 			merge();
 		}
 		return;
@@ -66,12 +75,13 @@ public class StrangeSet {
 		return array;
 	}
 
-	/**
+	/** 
 	 * Merges the data structure's smaller array into the larger array
+	 * If the larger array doesn't have room, merge() will reallocate
+	 * both arrays.
 	 */
 	private void merge() {
 		if (big_array.length - big_elements >= small_array.length) {
-			//System.out.println("Big array had room");
 			for(int index = 0; index < small_array.length; index++) {
 				big_array[big_elements + index] = small_array[index];
 
@@ -79,7 +89,6 @@ public class StrangeSet {
 			big_elements += small_elements;
 			small_elements = 0;
 		} else {
-			//System.out.println("Big array did not have room");
 			reallocate();
 			merge();
 			return;
@@ -90,8 +99,9 @@ public class StrangeSet {
 
 	/** 
 	 * Enlarges both arrays and copies the old data when the old arrays were
-	 * too small to hold the data
-	 * 
+	 * too small to hold the data. The new size of the smaller array is
+	 * increased by 1. The larger array is the square of the new small
+	 * array size. 
 	 */
 	private void reallocate() {
 		int new_small_size = small_array.length + 1;
@@ -107,13 +117,11 @@ public class StrangeSet {
 		}
 		big_array = new_big;
 		small_array = new_small;
-		//System.out.println("Big array now has length " + big_array.length);
-		//System.out.println("Small array now has length " + small_array.length);
+
 	}
 
 	/**
 	 * Performs a binary search for an integer value on the data structure
-	 * TODO: Not implemented 
 	 * @param val
 	 * @return true if integer val was found in the data structure, false
 	 * otherwise
@@ -128,7 +136,7 @@ public class StrangeSet {
 	 * @param array The array to search through
 	 * @return true if val found in array, false otherwise
 	 */
-	private boolean binary_search(int val, int[] array) {
+	public boolean binary_search(int val, int[] array) {
 		int left = 0;
 		int right = array.length - 1;
 		int middle;
@@ -144,10 +152,11 @@ public class StrangeSet {
 		}
 		return false;
 	}
+	
 	/**
 	 * Prints the integer elements within the smaller array
 	 */
-	public void printSmall(){
+	public void print_small(){
 		System.out.println("Printing small array (" + small_elements + ")");
 		for(int index = 0; index < small_elements; index++) {
 			System.out.println(small_array[index] + " ");
@@ -157,7 +166,7 @@ public class StrangeSet {
 	/**
 	 * Prints the integer elements within the larger array 
 	 */
-	public void printLarge() {
+	public void print_large() {
 		System.out.println("Printing big array (" + big_elements + ")");
 		for(int index = 0; index < big_elements; index++) {
 			System.out.println(big_array[index] + " ");
