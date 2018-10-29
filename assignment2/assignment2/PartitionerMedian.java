@@ -15,6 +15,7 @@ import clrs.InsertionSort;
  */
 public class PartitionerMedian extends Partitioner {
 	
+	
 	@Override
 	/**
 	 * This is the partition function that utilizes Median of Three partitioning
@@ -40,6 +41,7 @@ public class PartitionerMedian extends Partitioner {
 	//   array[i+1..j-1] > x, and
 	//   array[r] = x.
 	for (int j = p; j < r; j++) {
+		comparisons++;
 	    if (array[j].compareTo(x) <= 0) {
 		i++;
 		exchange(array, i, j);
@@ -73,9 +75,7 @@ public class PartitionerMedian extends Partitioner {
     	
     	// Use InsertionSort for sorting the three elements
     	new InsertionSort().sort(sorted);
-   
-    	System.out.println("Found median: " + sorted[1]);
-    	
+       	
     	// Hacky
     	if (sorted[1] == array[i]) {
     		return i;

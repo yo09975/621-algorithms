@@ -30,10 +30,13 @@ package clrs;
  * Class for partitioning an array of {@link Comparable} objects.
  * Implements the Partition procedure from page 146 of
  * <i>Introduction to Algorithms</i>, Second edition.
+ * 
+ * Note that this code has been augmented to count comparisons
  */
 
 public class Partitioner
 {
+	protected int comparisons = 0; // NOT CLRS CODE
     /**
      * Partitions a subarray around its last element.
      *
@@ -60,6 +63,7 @@ public class Partitioner
 	//   array[i+1..j-1] > x, and
 	//   array[r] = x.
 	for (int j = p; j < r; j++) {
+		comparisons++; // NOT CLRS CODE
 	    if (array[j].compareTo(x) <= 0) {
 		i++;
 		exchange(array, i, j);
@@ -84,6 +88,15 @@ public class Partitioner
 	Object t = array[i];
 	array[i] = array[j];
 	array[j] = t;
+    }
+    
+    /**
+     * Grabs the number of comparisons for a sort from the partitioner
+     * Note that this is not part of the original CLRS code
+     * @return integer count of comparisons performed in the partitioner
+     */
+    public int getComparisons() {
+    	return comparisons;
     }
 }
 

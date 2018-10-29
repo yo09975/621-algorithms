@@ -29,6 +29,8 @@ package clrs;
 /**
  * Implements the {@link Sorter} interface via quicksort from
  * page 146 of <i>Introduction to Algorithms</i>, Second edition.
+ * 
+ * Note that this code has been augmented to count comparisons
  */
 
 public class Quicksort implements Sorter
@@ -65,6 +67,16 @@ public class Quicksort implements Sorter
     {
 	part = new Partitioner(); // use a deterministic partitioner
 	quicksort(array, 0, array.length - 1); // sort using it
+    }
+    
+    /**
+     * Grabs the number of comparisons for a sort from the partitioner
+     * Note that this is not part of the original CLRS code
+     * @return integer count of comparisons performed in the partitioner
+     */
+    public int getComparisons()
+    {
+    	return part.getComparisons();
     }
 }
 

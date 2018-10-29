@@ -10,6 +10,7 @@ import clrs.Quicksort;
  *
  */
 public class QuicksortMedian extends Quicksort {
+
 	@Override
     /**
      * Sorts an array of <code>Comparable</code> objects.
