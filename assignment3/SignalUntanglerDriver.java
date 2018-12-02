@@ -1,5 +1,11 @@
 package assignment3;
 
+/**
+ * Test driver for SignalUntangler
+ * 
+ * @version 11272018
+ *
+ */
 public class SignalUntanglerDriver {
 	/**
 	 * Creates and returns a string with length @length consisting of 1s and 0s
@@ -17,18 +23,22 @@ public class SignalUntanglerDriver {
 	}
 
 	public static void main(String args[]) {
+		final int SIGNAL_LENGTH = 9;
+		
+		
 		final String x = "101";
 		final String y = "000";
-
+		
+		// You can use these to test a successful/unsuccessful interleaving
 		final String bad_signal = "1000101010010100";
 		final String good_signal = "100010101";
 		
-		String signal = generate_signal(9);
+		String signal = generate_signal(SIGNAL_LENGTH);
 
 		SignalUntangler su = new SignalUntangler();
 		while(su.untangle(x, y, signal) == false) {
 			System.out.println(signal);
-			signal = generate_signal(9);
+			signal = generate_signal(SIGNAL_LENGTH);
 		}
 
 		System.out.println("Signal untangled successfully");

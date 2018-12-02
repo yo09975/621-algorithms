@@ -14,8 +14,10 @@ public class SignalUntangler {
 
 	private boolean untangled_x[], untangled_y[];
 	private boolean success = false;
-
+	private int comparisons = 0;
+	
 	public boolean untangle(String x, String y, String signal) {
+		comparisons = 0;
 		final int SIGNAL_LENGTH = signal.length();
 		
 		/*
@@ -37,6 +39,7 @@ public class SignalUntangler {
 
 		// Check for x signals
 		for(int i = 0; i < SIGNAL_LENGTH; i++) {
+			comparisons++;
 			// Found a bit that matches the signal
 			if (signal.charAt(i) == x.charAt(count)) 
 			{
@@ -60,6 +63,7 @@ public class SignalUntangler {
 		
 		// Check for y signals
 		for(int i = 0; i < SIGNAL_LENGTH; i++) {
+			comparisons++;
 			// Found a bit that matches the signal
 			if (!untangled_x[i] && (signal.charAt(i) == y.charAt(count)))
 			{
@@ -80,6 +84,7 @@ public class SignalUntangler {
 
 		// Check for a clean interleaving of x and y
 		for(int i = 0; i < SIGNAL_LENGTH; i++) {
+			comparisons++;
 			if (!(untangled_x[i] == true || untangled_y[i] == true)) {
 				success=false;
 				return success;
@@ -97,6 +102,7 @@ public class SignalUntangler {
 	public void print_untangled() {
 		if(success) {
 			final int SIGNAL_LENGTH = this.untangled_x.length;
+			System.out.println("Comparisons used to unravel: " + comparisons);
 			System.out.println("X signal indices:");
 			for(int i = 0; i < SIGNAL_LENGTH; i++) {
 				if(untangled_x[i] == true) {
